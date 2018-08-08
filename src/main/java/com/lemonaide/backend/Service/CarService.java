@@ -39,7 +39,7 @@ public class CarService {
     public String getGoogleSearchResult(String car) {
         Set<String> result = new HashSet<>();
         String request = "https://www.google.com/search?q=toyota+camry+2018&num=20";
-        System.out.println("Sending request..." + request);
+//        System.out.println("Sending request..." + request);
 
         try {
 
@@ -51,7 +51,13 @@ public class CarService {
                     .timeout(5000).get();
 
             // get all links
-            Elements links = doc.getElementsByAttribute("data-ved");
+            Element eml = doc.getElementById("rhs_block");
+//            Elements links = doc.getElementsByTag("span");
+            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+//            System.out.println(eml.text());
+//            System.out.println(eml.html());
+//            ArrayList<Element> conf = new ArrayList<>();
+            Elements links = eml.getElementsByTag("div");
             for (Element link : links) {
 
 //                String temp = link.attr("href");
@@ -60,9 +66,12 @@ public class CarService {
 //                    //result.add(getDomainName(temp));
 //
 // }
-                System.out.println("This is element" + link.toString());
+                if(link.text().contains("Configur")) {
+                    links.remove(link);
+                }
 
             }
+            System.out.println(eml.html());
 
         } catch (IOException e) {
             e.printStackTrace();
