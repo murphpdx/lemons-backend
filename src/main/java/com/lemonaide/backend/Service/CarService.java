@@ -1,12 +1,19 @@
 package com.lemonaide.backend.Service;
 
 import com.lemonaide.backend.SpringRepository.CarRepository;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lemonaide.backend.RedisRepository.Car;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -27,5 +34,40 @@ public class CarService {
 
     public Iterable<Car> getAllCarInfo() {
         return carRepository.findAll();
+    }
+
+    public String getGoogleSearchResult(String car) {
+        Set<String> result = new HashSet<>();
+        String request = "https://www.google.com/search?q=toyota+camry+2018&num=20";
+        System.out.println("Sending request..." + request);
+
+        try {
+
+            // need http protocol, set this as a Google bot agent :)
+            Document doc = Jsoup
+                    .connect(request)
+                    .userAgent(
+                            "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)")
+                    .timeout(5000).get();
+
+            // get all links
+            Elements links = doc.getElementsByAttribute("data-ved");
+            for (Element link : links) {
+
+//                String temp = link.attr("href");
+//                if(temp.startsWith("/url?q=")){
+//                    //use regex to get domain name
+//                    //result.add(getDomainName(temp));
+//
+// }
+                System.out.println("This is element" + link.toString());
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result.toString();
     }
 }

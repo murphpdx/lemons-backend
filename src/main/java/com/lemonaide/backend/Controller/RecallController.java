@@ -73,4 +73,9 @@ public class RecallController {
         return restTemplate.getForObject(uri, String.class);
     }
 
+    @GetMapping("/googleSearch")
+    public String googleScrape() {
+        return carService.getGoogleSearchResult("bmw");
+    }
+
 }
