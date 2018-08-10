@@ -3,6 +3,7 @@ package com.lemonaide.backend.Controller;
 
 import com.lemonaide.backend.Service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ public class RecallController {
         return "All car info";
     }
 
+    @CrossOrigin(origins = "http://146.148.38.15")
     @GetMapping("/years")
     public String getAllYears() {
         final String uri = baseUri + "/vehicle?format=json";
@@ -33,6 +35,7 @@ public class RecallController {
 
     }
 
+    @CrossOrigin(origins = "http://146.148.38.15")
     @GetMapping("/year/{year}")
     public String makersWithRecallsByYear(@PathVariable("year") int year) {
         final String uri = baseUri + "/vehicle/modelyear/" + String.valueOf(year);
@@ -45,6 +48,7 @@ public class RecallController {
 
     }
 
+    @CrossOrigin(origins = "http://146.148.38.15")
     @GetMapping("/year/{year}/make/{make}")
     public String recalledModelsByYearAndMake(@PathVariable("year") int year,
                                       @PathVariable("make") String make) {
@@ -55,6 +59,7 @@ public class RecallController {
         return result;
     }
 
+    @CrossOrigin(origins = "http://146.148.38.15")
     @GetMapping("year/{year}/make/{make}/model/{model}")
     public String recallsByYearAndMakeAndModel(@PathVariable("year") int year,
                                                @PathVariable("make") String make,
@@ -66,6 +71,7 @@ public class RecallController {
     }
 
 
+    @CrossOrigin(origins = "http://146.148.38.15")
     @GetMapping("campaign/{campaignNum}")
     public String recallsByCampaignNumber(@PathVariable("campaignNum") String campaignNum) {
         final String uri = baseUri + "/vehicle/campaignnumber/" + campaignNum;
@@ -73,6 +79,7 @@ public class RecallController {
         return restTemplate.getForObject(uri, String.class);
     }
 
+    @CrossOrigin(origins = "http://146.148.38.15")
     @GetMapping("/googleSearch")
     public String googleScrape() {
         return carService.getGoogleSearchResult("bmw");
